@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Surprise for Pari</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #fce4ec; 
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Password Page Styles */
+        #passwordPage {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #f8bbd0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: 0.8s ease-in-out;
+        }
+
+        .pass-input {
+            padding: 12px;
+            border-radius: 20px;
+            border: 2px solid #ad1457;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .fancy-text, .btn-pill {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 1.2rem;
+        }
+
+        /* Heart Animation for Page 1 */
+        .heart-wrapper {
+            position: relative;
+            width: 140px; height: 120px;
+            margin: 30px auto;
+            display: flex; justify-content: center; align-items: center;
+            animation: beat 1.2s infinite;
+        }
+        .heart-container { position: absolute; width: 100px; height: 90px; }
+        .heart-container:before, .heart-container:after {
+            position: absolute; content: ""; left: 50px; top: 0;
+            width: 50px; height: 80px; background: #d32f2f;
+            border-radius: 50px 50px 0 0; transform: rotate(-45deg);
+            transform-origin: 0 100%; box-shadow: 0 0 20px rgba(211, 47, 47, 0.4);
+        }
+        .heart-container:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+        .name-inside { position: relative; z-index: 2; color: white; font-family: 'Dancing Script', cursive; font-size: 1.8rem; margin-top: -10px; }
+
+        @keyframes beat {
+            0%, 60% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            45% { transform: scale(1.15); }
+        }
+
+        .card { text-align: center; background-color: #f8bbd0; padding: 30px 20px; border-radius: 30px; width: 90%; max-width: 450px; z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; display: none; }
+        .bouquet-img { width: 100%; max-width: 280px; border: 66 double #d32f2f; border-radius: 20px; margin-bottom: 20px; }
+        .notepad { background: #fff; background-image: linear-gradient(#e1f5fe 1px, transparent 1px); background-size: 100% 2.2rem; padding: 25px 20px 20px 45px; border-radius: 2px; box-shadow: 2px 5px 15px rgba(0,0,0,0.1); position: relative; text-align: left; border-left: 20px solid #ffeb3b; }
+        .message-text { font-family: 'Dancing Script', cursive; color: #1a237e; font-size: 1.35rem; line-height: 2.2rem; margin: 0; }
+        .btn-pill { padding: 10px 25px; border-radius: 50px; border: none; background-color: #ff80ab; color: white; font-weight: bold; cursor: pointer; margin: 10px; transition: 0.2s; }
+        .back-btn { background-color: #ad1457; font-size: 1rem; margin-top: 15px; }
+        .floating-item { position: absolute; bottom: -50px; font-size: 25px; animation: floatUp 5s linear infinite; z-index: 1; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+        .video-link { color: #d32f2f; text-decoration: underline; font-weight: bold; word-break: break-all; display: block; margin: 10px 0; }
+    </style>
+</head>
+<body onload="startFloating('❤️')">
+
+    <div id="passwordPage">
+        <div class="heart-wrapper" style="animation: none;">
+            <div class="heart-container"></div>
+        </div>
+        <h2 class="fancy-text" style="color: #ad1457;">Who is this for?</h2>
+        <input type="password" id="passInput" class="pass-input" placeholder="Enter Password">
+        <button class="btn-pill" onclick="checkPassword()">Unlock My Love 🔑</button>
+        <p id="errorMsg" style="color: #d32f2f; display: none; font-size: 0.9rem;">Wrong name! Try "Pari" 😉</p>
+    </div>
+
+    <div class="card" id="page1">
+        <div class="heart-wrapper">
+            <div class="heart-container"></div>
+            <div class="name-inside">Pari</div>
+        </div>
+        <h1 style="color: #880e4f; margin-top: 20px;">Will you be my Valentine?</h1>
+        <button class="btn-pill" onclick="show('page2')">Yes Of Course</button>
+        <button id="noBtn" class="btn-pill" onmouseover="jump()" onclick="jump()">No Thanks</button>
+    </div>
+
+    <div class="card" id="page2">
+        <h1 style="color: #880e4f;">Yay!</h1>
+        <p class="fancy-text" style="color: #ad1457;">Choose a gift for yourself:</p>
+        <button class="btn-pill" onclick="show('page3')">Gift 1 🌷</button>
+        <button class="btn-pill" onclick="show('page4')">Gift 2 🧸</button>
+        <button class="btn-pill" onclick="show('page6')">Gift 3 🎬</button>
+        <br>
+        <button class="btn-pill back-btn" onclick="show('page1')">← Go Back</button>
+    </div>
+
+    <div class="card" id="page3">
+        <img src="https://blacktulipflowers.in/wp-content/uploads/2024/01/RT_9709.png" class="bouquet-img">
+        <div class="notepad">
+            <p class="message-text">
+                (Tuza Favourite Tulip cha bouqet)<br>
+                You are the best part of my life 💗<br>
+                Thanks for always supporting me 🫂<br>
+                Love You Pari 💋
+            </p>
+        </div>
+        <button class="btn-pill back-btn" onclick="show('page2')">← Go Back</button>
+    </div>
+
+    <div class="card" id="page4">
+        <div class="gift-animation" style="position: relative; margin-bottom: 15px; animation: pulse 1.5s infinite ease-in-out; display: inline-block;">
+            <span style="font-size: 70px; display: block;">🧸</span>
+            <span style="font-size: 35px; position: absolute; top: -10px; right: -20px;">💸</span>
+        </div>
+        <div class="notepad">
+            <p class="message-text">
+                To the love of my life,<br>
+                Happy Valentines Day my love 💋🫂<br><br>
+                <b style="color: #d32f2f;">Maza gift dee mala😭 kivha 500 rs send karr mala 😅</b><br><br>
+                Khup mahinat keli hya sathi me😅😭
+            </p>
+        </div>
+        <button class="btn-pill" style="background-color: #4caf50;" onclick="goToFailedPage()">Pay 500 Rs Now 💸</button>
+        <br>
+        <button class="btn-pill back-btn" onclick="show('page2')">← Go Back</button>
+    </div>
+
+    <div class="card" id="page5">
+        <h1 style="color: #d32f2f;">❌ PAYMENT FAILED!</h1>
+        <div class="notepad" style="border-left: 20px solid #f44336;">
+            <p class="message-text" style="color: #b71c1c;">
+                Error: KANJOOS_DETECTED 😤<br>
+                • Bank mhanla "Nahi denar!"<br>
+                • Transaction status: Kadki 💸<br><br>
+                <b>Chala ata direct hug dya! 🫂❤️</b>
+            </p>
+        </div>
+        <button class="btn-pill back-btn" onclick="show('page4')">← Go Back</button>
+    </div>
+
+    <div class="card" id="page6">
+        <div class="notepad" style="border-left: 20px solid #ff80ab; margin-top: 30px;">
+            <p class="message-text" style="text-align: center;">
+                I made something for you... 🎬<br>
+                <a href="https://www.mediafire.com/file/97u9ib63dvwml6f/lv_7469350467454176573_20260206013044.mp4/file" target="_blank" class="video-link">
+                    CLICK HERE TO OPEN LINK 💖
+                </a>
+                <span style="font-size: 0.9rem; color: #880e4f; display: block; margin-top: 10px;">
+                    (Click link and download the video)
+                </span>
+            </p>
+        </div>
+        <button class="btn-pill back-btn" onclick="show('page2')">← Go Back</button>
+    </div>
+
+    <script>
+        let floatInterval;
+
+        function checkPassword() {
+            const input = document.getElementById('passInput').value;
+            if (input.toLowerCase() === 'pari') {
+                document.getElementById('passwordPage').style.top = '-100%';
+                setTimeout(() => {
+                    document.getElementById('page1').style.display = 'block';
+                }, 400);
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        function show(id) {
+            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            if (id === 'page5') startFloating('😭');
+            else if (id === 'page6') startFloating('🎬');
+            else startFloating('❤️');
+        }
+
+        function goToFailedPage() {
+            alert("Connecting to Bank...");
+            setTimeout(() => { show('page5'); }, 1000);
+        }
+
+        function jump() {
+            const btn = document.getElementById('noBtn');
+            btn.style.position = 'fixed';
+            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        }
+
+        function createFloatingItem(emoji) {
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.innerHTML = emoji;
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.fontSize = Math.random() * 20 + 20 + 'px';
+            document.body.appendChild(item);
+            setTimeout(() => item.remove(), 5000);
+        }
+
+        function startFloating(emoji) {
+            clearInterval(floatInterval);
+            floatInterval = setInterval(() => createFloatingItem(emoji), 400);
+        }
+    </script>
+</body>
+</html>
